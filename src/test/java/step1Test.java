@@ -8,7 +8,7 @@ public class step1Test {
     @Test
     public void test1(){
         // 1.初始化beanfactory
-        BeanFactory beanFactory = newBeanFactory();
+        BeanFactory beanFactory = new BeanFactory();
 
         // 2.注入bean
         BeanDefinition beanDefinition = new BeanDefinition(new HelloWorldService());
