@@ -15,7 +15,7 @@ public class BeanFactory {
         beanMap.put(helloWorldService, beanDefinition);
     }
 
-    public Object getBean(String beanName) {
+    public Object getBean(String beanName) throws IllegalAccessException, ClassNotFoundException, InstantiationException {
         return beanMap.get(beanName).getBean();
     }
 }
