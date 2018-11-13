@@ -3,7 +3,6 @@ package resource;
 import bean.BeanDefinition;
 import bean.PropertyValues;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -14,9 +13,8 @@ public class ClassPathResource {
     private InputStream inputStream;
     private PropertyValues propertyValues = new PropertyValues();
     private BeanDefinition beanDefinition = new BeanDefinition();
-
     public ClassPathResource(String fileName) throws FileNotFoundException {
-        inputStream = new FileInputStream(fileName);
+        inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
     }
 
     public InputStream getInputStream() {

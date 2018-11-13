@@ -11,7 +11,7 @@ public class SpringTest {
     @org.junit.Test
     public void test3() throws Exception {
         // 1.初始化beanfactory
-        BeanFactory beanFactory = new XMLBeanFactory(new ClassPathResource("/Users/wangdong/IdeaProjects/tiny-spring/src/main/resources/beanFactoryTest.xml"));
+        BeanFactory beanFactory = new XMLBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
 
         // 5.获取bean
         HelloWorldService helloWorldService = (HelloWorldService) beanFactory.getBean("myTestBean");
