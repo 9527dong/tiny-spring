@@ -21,7 +21,7 @@ public class BeanDefinition {
     private ConstructorValues constructorValues;
     private BeanFactory beanFactory;
 
-    private List<Class> dependOnClassList = new ArrayList<>();
+    private List<String> dependOnClassList = new ArrayList<>();
 
     public ConstructorValues getConstructorValues() {
         return constructorValues;
@@ -105,7 +105,7 @@ public class BeanDefinition {
         return list.size() != hashSet.size();
     }
 
-    private Object[] getObjectArray() {
+    private Object[] getObjectArray(){
         return constructorValues.getConstructorValueList().stream().map(ConstructorValue::getRef).map(refName -> {
             try {
                 return beanFactory.getBean(refName);

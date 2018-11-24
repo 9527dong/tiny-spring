@@ -3,7 +3,7 @@ package entity;
 public class HelloWorldA {
     HelloWorldB helloWorldB;
     String hello;
-    public HelloWorldA(HelloWorldB helloWorldB,String hello) {
+    public HelloWorldA(HelloWorldB helloWorldB,String hello,HelloWorldB helloWorldB1) {
         helloWorldB = this.helloWorldB;
 
     }
