@@ -8,6 +8,7 @@ public class XMLBeanFactory extends BeanFactory {
 
     private XMLBeanDefinitionReader xmlBeanDefinitionReader = new XMLBeanDefinitionReader(this);
     public XMLBeanFactory(ClassPathResource classPathResource) throws DocumentException {
+        super();
         xmlBeanDefinitionReader.registerBeanDefinition(classPathResource);
     }
 }

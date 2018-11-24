@@ -3,7 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="myTestBean" class="entity.HelloWorldService">
-        <property name="text" value="sdfsfa"/>
+    <bean id="helloWorldA" class="entity.HelloWorldA">
+        <constructor-arg index="0" ref="helloWorldB"/>
+        <property name="hello" value="sdf" />
+    </bean>
+
+
+    <bean id="helloWorldB" class="entity.HelloWorldB">
+        <constructor-arg index="0" ref="helloWorldA"></constructor-arg>
     </bean>
 </beans>

@@ -1,8 +1,6 @@
 package reader;
 
-import bean.BeanDefinition;
-import bean.PropertyValue;
-import bean.PropertyValues;
+import bean.*;
 import factory.BeanFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -51,21 +49,41 @@ public class XMLBeanDefinitionReader {
         String beanClass = element.attributeValue("class");
         BeanDefinition beanDefinition = new BeanDefinition();
         beanDefinition.setBeanClassName(beanClass);
+        beanDefinition.setBeanId(beanId);
 
         System.out.println("bean attribute :"+beanId + " "+ beanClass);
 
-        List<Element> propertyList = element.elements("property");
+        List<Element> elements = element.elements();
         PropertyValues propertyValues = new PropertyValues();
-        propertyList.forEach(property ->{
+        ConstructorValues constructorValues = new ConstructorValues();
 
-            String name = property.attributeValue("name");
-            String value = property.attributeValue("value");
-            propertyValues.addPropertyValue(new PropertyValue(name, value));
+        elements.forEach(subElement ->{
+            String subElementName = subElement.getName();
+            if (subElementName.equals("property")){
+                propertyValues.addPropertyValue(parsePropertyElement(subElement));
 
+            }
+            if (subElementName.equals("constructor-arg")){
+                constructorValues.addConstructorValue(parseConstructorArgElement(subElement));
+            }
         });
 
         beanDefinition.setPropertyValues(propertyValues);
+        beanDefinition.setConstructorValues(constructorValues);
         beanFactory.registerBeanDefinition(beanId,beanDefinition);
+    }
+
+    private ConstructorValue parseConstructorArgElement(Element subElement) {
+        String index = subElement.attributeValue("index");
+        String ref = subElement.attributeValue("ref");
+
+        return new ConstructorValue(index,ref);
+    }
+
+    private PropertyValue parsePropertyElement(Element subElement) {
+        String name = subElement.attributeValue("name");
+        String value = subElement.attributeValue("value");
+        return new PropertyValue(name, value);
     }
 
     public BeanFactory getBeanFactory() {

@@ -2,7 +2,7 @@ package bean;
 
 public class PropertyValue {
     private String field;
-    private String value;
+    private Object value;
 
     public String getField() {
         return field;
@@ -16,11 +16,11 @@ public class PropertyValue {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 
-    public PropertyValue(String field, String value) {
+    public PropertyValue(String field, Object value) {
         this.field = field;
         this.value = value;
     }

@@ -1,4 +1,4 @@
-import entity.HelloWorldService;
+import entity.HelloWorldA;
 import factory.BeanFactory;
 import factory.XMLBeanFactory;
 import resource.ClassPathResource;
@@ -14,7 +14,17 @@ public class SpringTest {
         BeanFactory beanFactory = new XMLBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
 
         // 5.获取bean
-        HelloWorldService helloWorldService = (HelloWorldService) beanFactory.getBean("myTestBean");
-        helloWorldService.helloWorld();
+        HelloWorldA helloWorldService = (HelloWorldA) beanFactory.getBean("helloWorldA");
+        System.out.println(helloWorldService);
     }
+
+//    @org.junit.Test
+//    public void test4() throws Exception {
+//        Class clazz = HelloWorldA.class;
+//        Constructor constructor = clazz.getConstructor(new Class[]{HelloWorldB.class});
+//        HelloWorldA helloWorldA = (HelloWorldA)constructor.newInstance(new HelloWorldB());
+//
+//        System.out.println(helloWorldA);
+//
+//    }
 }
