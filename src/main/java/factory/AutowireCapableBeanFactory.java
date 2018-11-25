@@ -1,4 +1,4 @@
 package factory;
 
-public class AutowireCapableBeanFactory extends BeanFactory {
+public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 }

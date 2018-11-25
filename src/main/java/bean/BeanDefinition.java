@@ -81,14 +81,7 @@ public class BeanDefinition {
 //            System.out.println("循环引用");
 //        }
 //        return (Class[]) classList.toArray();
-        return constructorValues.getConstructorValueList().stream().map(ConstructorValue::getRef).map(refName-> {
-            try {
-                return beanFactory.getBeanType(refName);
-            } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            return "";
-        }).map(className -> {
+        return constructorValues.getConstructorValueList().stream().map(ConstructorValue::getRef).map(refName-> beanFactory.getBeanType(refName)).map(className -> {
 
             try {
                 return Class.forName(className);

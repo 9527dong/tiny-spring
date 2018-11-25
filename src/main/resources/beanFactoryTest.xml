@@ -10,6 +10,5 @@
 
 
     <bean id="helloWorldB" class="entity.HelloWorldB">
-        <constructor-arg index="0" ref="helloWorldA"></constructor-arg>
     </bean>
 </beans>

@@ -1,6 +1,5 @@
 package resource;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
@@ -8,7 +7,7 @@ import java.io.InputStream;
  */
 public class ClassPathResource {
     private InputStream inputStream;
-    public ClassPathResource(String fileName) throws FileNotFoundException {
+    public ClassPathResource(String fileName) {
         inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
     }
 
