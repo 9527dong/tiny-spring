@@ -24,9 +24,13 @@ public class XMLBeanDefinitionReader {
         this.beanFactory = beanFactory;
     }
 
-    public void registerBeanDefinition(ClassPathResource classPathResource) throws DocumentException {
+    public void registerBeanDefinition(ClassPathResource classPathResource)  {
         inputStream = classPathResource.getInputStream();
-        doRegisterBeanDefinition(reader.read(inputStream));
+        try {
+            doRegisterBeanDefinition(reader.read(inputStream));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
     }
 
     private void doRegisterBeanDefinition(Document document) {
@@ -51,7 +55,6 @@ public class XMLBeanDefinitionReader {
         beanDefinition.setBeanClassName(beanClass);
         beanDefinition.setBeanId(beanId);
 
-        System.out.println("bean attribute :"+beanId + " "+ beanClass);
 
         List<Element> elements = element.elements();
         PropertyValues propertyValues = new PropertyValues();
@@ -76,8 +79,10 @@ public class XMLBeanDefinitionReader {
     private ConstructorValue parseConstructorArgElement(Element subElement) {
         String index = subElement.attributeValue("index");
         String ref = subElement.attributeValue("ref");
+        String value = subElement.attributeValue("value");
+        String name = subElement.attributeValue("name");
 
-        return new ConstructorValue(index,ref);
+        return new ConstructorValue(index,ref,value,name);
     }
 
     private PropertyValue parsePropertyElement(Element subElement) {

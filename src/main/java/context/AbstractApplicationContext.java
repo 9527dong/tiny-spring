@@ -4,8 +4,6 @@ import bean.BeanDefinition;
 import factory.BeanFactory;
 import factory.XMLBeanFactory;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class AbstractApplicationContext implements ApplicationContext {
 
     XMLBeanFactory beanFactory;
@@ -29,7 +27,7 @@ public class AbstractApplicationContext implements ApplicationContext {
     }
 
     @Override
-    public Object getBean(String beanName) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Object getBean(String beanName) {
         return beanFactory.getBean(beanName);
     }
 

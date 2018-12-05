@@ -27,7 +27,7 @@ public class AbstractBeanFactory implements BeanFactory {
         beanMap.put(className, object);
     }
 
-    public Object getBean(String beanName) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Object getBean(String beanName) {
         Object beanInstance = beanMap.get(beanName);
         if (beanInstance == null){
             if (singletonsCurrentlyInCreation.contains(beanName)){
@@ -35,7 +35,20 @@ public class AbstractBeanFactory implements BeanFactory {
             }
             singletonsCurrentlyInCreation.add(beanName);
 
-            Object bean = beanDefinitionMap.get(beanName).getBean(this);
+            Object bean = null;
+            try {
+                bean = beanDefinitionMap.get(beanName).getBean(this);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
 
             singletonsCurrentlyInCreation.remove(beanName);
             return bean;
