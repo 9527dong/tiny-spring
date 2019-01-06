@@ -1,4 +1,3 @@
-import aop.CglibAopPorxy;
 import aop.ProxyFactory;
 import aopAdvice.PerformerAfterAdvice;
 import aopAdvice.PerformerAroundAdvice;
@@ -25,6 +24,9 @@ public class SpringAopTest {
         performer2.perform();
     }
 
+    /**
+     * 测试简单的jdk代理和cglib代理
+     */
     @org.junit.Test
     public void test() {
         ProxyFactory proxyFactory = new ProxyFactory();     // 创建代理工厂
@@ -34,12 +36,6 @@ public class SpringAopTest {
 
         Performer singer = (Performer) proxyFactory.getProxy(); // 从代理工厂中获取代理
         singer.perform();
-    }
-    @org.junit.Test
-    public void test4() {
-        Singer singer = (Singer)CglibAopPorxy.getProxy(Singer.class);
-        Singer singer2 = (Singer)CglibAopPorxy.getProxy(Singer.class);
-        System.out.println(singer.equals(singer2));
     }
 
     @org.junit.Test

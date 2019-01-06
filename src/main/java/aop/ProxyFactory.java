@@ -14,9 +14,20 @@ public class ProxyFactory {
     List<Advice> aroundAdvices = new ArrayList<>();
 
     Object target;
-    
+
     public Object getProxy(){
-        return new JdkDynamicAopProxy(this).getProxy();
+        return createAopProxy().getProxy();
+    }
+
+    /**
+     * 若是代理接口，使用jdk代理，如果没有接口，通过cglib代理
+     * @return
+     */
+    private AopProxy createAopProxy() {
+        if (target.getClass().isInterface() || target.getClass().getInterfaces().length != 0){
+            return new JdkDynamicAopProxy(this);
+        }
+        return new CglibAopPorxy(this);
     }
 
     public void addAdvice(Advice advice){

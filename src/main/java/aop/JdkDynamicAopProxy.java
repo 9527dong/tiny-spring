@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class JdkDynamicAopProxy implements InvocationHandler {
+public class JdkDynamicAopProxy implements InvocationHandler,AopProxy {
     private ProxyFactory proxyFactory;
 
     public JdkDynamicAopProxy(ProxyFactory proxyFactory) {
@@ -31,8 +31,14 @@ public class JdkDynamicAopProxy implements InvocationHandler {
         return object;
     }
 
-    Object getProxy() {
+    @Override
+    public Object getProxy() {
         return Proxy.newProxyInstance(proxyFactory.getTarget().getClass().getClassLoader(),proxyFactory.getTarget().getClass().getInterfaces(),this);
 
+    }
+
+    @Override
+    public Object getProxy(ClassLoader classLoader) {
+        return Proxy.newProxyInstance(classLoader,proxyFactory.getTarget().getClass().getInterfaces(),this);
     }
 }

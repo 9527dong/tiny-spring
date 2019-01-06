@@ -8,25 +8,40 @@ import net.sf.cglib.proxy.MethodProxy;
 import java.lang.reflect.Method;
 
 @Data
-public class CglibAopPorxy implements MethodInterceptor {
-    public static CglibAopPorxy cglibAopPorxy = new CglibAopPorxy();
+public class CglibAopPorxy implements MethodInterceptor, AopProxy {
+    private ProxyFactory proxyFactory;
 
-    public static Object getProxy(Class clazz) {
-        return Enhancer.create(clazz, cglibAopPorxy);
+    public CglibAopPorxy(ProxyFactory proxyFactory) {
+        this.proxyFactory = proxyFactory;
     }
 
     @Override
-    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        statr();
-        methodProxy.invokeSuper(o, objects);
-        end();
-        return null;
+    public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+        this.proxyFactory.getBeforeAdvices().forEach(methodBeforeAdvice -> {
+            try {
+                methodBeforeAdvice.before(method, args, proxyFactory.getTarget());
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+        Object object = methodProxy.invokeSuper(o, args);
+        this.proxyFactory.getAfterReturningAdvices().forEach(afterReturningAdvice -> {
+            try {
+                afterReturningAdvice.afterReturning(object, method, args, proxyFactory.getTarget());
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+        return object;
     }
 
-    private void statr() {
-        System.out.println("开始执行");
+    @Override
+    public Object getProxy() {
+        return Enhancer.create(proxyFactory.getTarget().getClass(), this);
     }
-    private void end() {
-        System.out.println("结束执行");
+
+    @Override
+    public Object getProxy(ClassLoader classLoader) {
+        return Enhancer.create(proxyFactory.getTarget().getClass(), this);
     }
 }

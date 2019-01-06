@@ -2,7 +2,7 @@ package aopEntity;
 
 import exception.PerformanceException;
 
-public class Singer implements Performer {
+public class Singer implements Performer{
   private String name;
   private String song;
   
