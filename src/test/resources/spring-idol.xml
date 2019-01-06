@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	     http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  <bean id="paula"
+      class="aopEntity.NiceJudge" />
+  
+  <aop:config>
+    <aop:aspect ref="paula">
+      <aop:before 
+            pointcut="execution(* *.perform(..))"
+          method="greetPerformer"/>
+      <aop:after-returning
+          pointcut="execution(* *.perform(..))"
+          method="saySomethingNice"/>
+      <aop:after-throwing
+          pointcut="execution(* *.perform(..))"
+          method="saySomethingNiceAnyway"/>
+    </aop:aspect>
+    
+  </aop:config>
+
+  <bean id="bo"
+        class="aopEntity.Singer">
+    <constructor-arg index="0" value="Bo Bice" />
+    <property name="song" value="Sweet Home Alabama" />
+  </bean>
+
+    <bean id="william"
+          class="aopEntity.Singer">
+        <constructor-arg value="William Hung" index="0" />
+    </bean>
+</beans>

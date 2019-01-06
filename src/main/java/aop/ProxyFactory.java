@@ -11,6 +11,7 @@ public class ProxyFactory {
 
     List<MethodBeforeAdvice> beforeAdvices = new ArrayList<>();
     List<AfterReturningAdvice> afterReturningAdvices = new ArrayList<>();
+    List<Advice> aroundAdvices = new ArrayList<>();
 
     Object target;
     
@@ -25,5 +26,6 @@ public class ProxyFactory {
         if (advice instanceof  AfterReturningAdvice){
             afterReturningAdvices.add((AfterReturningAdvice)advice);
         }
+        aroundAdvices.add(advice);
     }
 }
