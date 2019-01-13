@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AbstractBeanFactory implements BeanFactory {
     Map<String, BeanDefinition> beanDefinitionMap;
-    Map<String, Object> beanMap = new HashMap<>();
+    private Map<String, Object> beanMap = new HashMap<>();
     private final Set<String> singletonsCurrentlyInCreation =
             Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
@@ -38,15 +38,7 @@ public class AbstractBeanFactory implements BeanFactory {
             Object bean = null;
             try {
                 bean = beanDefinitionMap.get(beanName).getBean(this);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | ClassNotFoundException | InvocationTargetException e) {
                 e.printStackTrace();
             }
 
@@ -58,6 +50,16 @@ public class AbstractBeanFactory implements BeanFactory {
     public String getBeanType(String beanId){
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanId);
         return beanDefinition.getBeanClassName();
+    }
+
+    @Override
+    public Object getObjectFromFactoryBean(FactoryBean factoryBean) {
+        try {
+            return factoryBean.getObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

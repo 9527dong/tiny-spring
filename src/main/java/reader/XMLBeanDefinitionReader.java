@@ -88,7 +88,8 @@ public class XMLBeanDefinitionReader {
     private PropertyValue parsePropertyElement(Element subElement) {
         String name = subElement.attributeValue("name");
         String value = subElement.attributeValue("value");
-        return new PropertyValue(name, value);
+        String ref = subElement.attributeValue("ref");
+        return new PropertyValue(name, value,ref);
     }
 
     public BeanFactory getBeanFactory() {

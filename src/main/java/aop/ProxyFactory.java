@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class ProxyFactory {
-
+public class ProxyFactory{
     List<MethodBeforeAdvice> beforeAdvices = new ArrayList<>();
     List<AfterReturningAdvice> afterReturningAdvices = new ArrayList<>();
     List<Advice> aroundAdvices = new ArrayList<>();

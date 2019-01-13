@@ -1,18 +1,22 @@
 package bean;
 
 import factory.BeanFactory;
+import factory.BeanFactoryAware;
+import factory.FactoryBean;
 import lombok.Data;
+import org.apache.commons.beanutils.PropertyUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 @Data
 public class BeanDefinition {
-    private Object o;
+    private Object object;
     private String beanClassName;
     private String beanId;
     private PropertyValues propertyValues;
@@ -29,8 +33,8 @@ public class BeanDefinition {
         this.constructorValues = constructorValues;
     }
 
-    public BeanDefinition(Object o) {
-        this.o = o;
+    public BeanDefinition(Object object) {
+        this.object = object;
     }
 
     public BeanDefinition() {
@@ -40,21 +44,51 @@ public class BeanDefinition {
         this.beanFactory = beanFactory;
         Class clazz = Class.forName(beanClassName);
         Constructor constructor = clazz.getConstructor(getClassArray());
-        o = constructor.newInstance(getObjectArray());
+        object = constructor.newInstance(getObjectArray());
         propertyValues.getPropertyValueList().forEach(propertyValue -> {
+            Object value;
+            if (propertyValue.getRef() != null) {
+                value = beanFactory.getBean(propertyValue.getRef());
+            }else{
+                value = propertyValue.getValue();
+            }
             try {
-                Field field = clazz.getDeclaredField(propertyValue.getField());
-                field.setAccessible(true);
-                field.set(o, propertyValue.getValue());
-            } catch (NoSuchFieldException | IllegalAccessException e) {
+                PropertyUtils.setProperty(object, propertyValue.getField(), value);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
-
         });
 
-        beanFactory.cacheBean(beanId, o);
+        try {
+            postProcessBeanFactory(object);
+        } catch (Exception ignored) {
 
-        return o;
+        }
+        if (object instanceof FactoryBean) {
+            return this.beanFactory.getObjectFromFactoryBean((FactoryBean) object);
+        }
+
+        beanFactory.cacheBean(beanId, object);
+
+        return object;
+    }
+    private static Object getPrivateStatic(Class clazz, String f) throws Exception {
+        try {
+            Field field = clazz.getDeclaredField(f);
+            field.setAccessible(true);
+            return field.get(null);
+        }
+        catch (NoSuchFieldException e) {
+            // Throw a more helpful exception.
+            throw new NoSuchFieldException(
+                    "Could not find field named '" + f + "' in class '" + clazz +
+                            "'.  All fields: " + Arrays.asList(clazz.getDeclaredFields()));
+        }
+    }
+    private void postProcessBeanFactory(Object o) throws Exception {
+        if (o instanceof BeanFactoryAware){
+            ((BeanFactoryAware) o).setBeanFactory(beanFactory);
+        }
     }
 
     private Class[] getClassArray() {

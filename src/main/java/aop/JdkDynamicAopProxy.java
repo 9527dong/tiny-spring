@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 public class JdkDynamicAopProxy implements InvocationHandler,AopProxy {
     private ProxyFactory proxyFactory;
 
-    public JdkDynamicAopProxy(ProxyFactory proxyFactory) {
+    JdkDynamicAopProxy(ProxyFactory proxyFactory) {
         this.proxyFactory = proxyFactory;
     }
 

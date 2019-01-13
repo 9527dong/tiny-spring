@@ -1,6 +1,5 @@
 import aop.ProxyFactory;
 import aopAdvice.PerformerAfterAdvice;
-import aopAdvice.PerformerAroundAdvice;
 import aopAdvice.PerformerBeforeAdvice;
 import aopEntity.Performer;
 import aopEntity.Singer;
@@ -38,14 +37,17 @@ public class SpringAopTest {
         singer.perform();
     }
 
+    /**
+     * 测试ProxyFactoryBean
+     */
     @org.junit.Test
     public void test3() {
-        ProxyFactory proxyFactory = new ProxyFactory();     // 创建代理工厂
-        proxyFactory.setTarget(new Singer("aaa","bbb"));         // 射入目标类对象
-        proxyFactory.addAdvice(new PerformerAroundAdvice()); // 添加前置增强
+        ApplicationContext ctx =
+                new ClassPathXmlApplicationContext("ProxyFactoryBean.xml");
 
-        Performer singer = (Performer) proxyFactory.getProxy(); // 从代理工厂中获取代理
-        singer.perform();
+        Performer performer = (Performer) ctx.getBean("proxyFactoryBean");
+
+        performer.perform();
     }
 
     @org.junit.Test

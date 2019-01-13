@@ -2,6 +2,7 @@ package context;
 
 import bean.BeanDefinition;
 import factory.BeanFactory;
+import factory.FactoryBean;
 import factory.XMLBeanFactory;
 
 public class AbstractApplicationContext implements ApplicationContext {
@@ -34,6 +35,11 @@ public class AbstractApplicationContext implements ApplicationContext {
     @Override
     public String getBeanType(String beanId) {
         return beanFactory.getBeanType(beanId);
+    }
+
+    @Override
+    public Object getObjectFromFactoryBean(FactoryBean object) {
+        return null;
     }
 
     public void refresh() {

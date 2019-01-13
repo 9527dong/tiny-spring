@@ -8,4 +8,6 @@ public interface BeanFactory {
 
     public Object getBean(String beanName);
     public String getBeanType(String beanId) ;
+
+    Object getObjectFromFactoryBean(FactoryBean object);
 }
