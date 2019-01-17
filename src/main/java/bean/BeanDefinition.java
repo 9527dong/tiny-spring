@@ -4,7 +4,7 @@ import factory.BeanFactory;
 import factory.BeanFactoryAware;
 import factory.FactoryBean;
 import lombok.Data;
-import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.BeanUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -53,8 +53,9 @@ public class BeanDefinition {
                 value = propertyValue.getValue();
             }
             try {
-                PropertyUtils.setProperty(object, propertyValue.getField(), value);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                BeanUtils.setProperty(object,propertyValue.getField(),value);
+//                PropertyUtils.setProperty(object, propertyValue.getField(), value);
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         });

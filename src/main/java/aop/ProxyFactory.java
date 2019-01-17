@@ -13,6 +13,7 @@ public class ProxyFactory{
     List<Advice> aroundAdvices = new ArrayList<>();
 
     Object target;
+    boolean proxyTargetClass = false;
 
     public Object getProxy(){
         return createAopProxy().getProxy();
@@ -23,6 +24,9 @@ public class ProxyFactory{
      * @return
      */
     private AopProxy createAopProxy() {
+        if (proxyTargetClass) {
+            return new CglibAopPorxy(this);
+        }
         if (target.getClass().isInterface() || target.getClass().getInterfaces().length != 0){
             return new JdkDynamicAopProxy(this);
         }
