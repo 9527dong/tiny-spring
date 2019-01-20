@@ -20,4 +20,7 @@ aop的实现遵守的[aop联盟](http://aopalliance.sourceforge.net/)的规定�
 * [ ] **实现aop自动代理，扫描 Bean 名称**
 * [ ] **接入aspectj，实现注解式配置切面**
 
-
+## 收获
+1. 对java中的一些概念有了更深入的理解，比如java内省、(javaBean)[https://blog.csdn.net/zhuwenchao90/article/details/54893253] 等。
+2. 阅读源码能力得到增强，现在读spring的源码，再也不会迷路了。
+3. 当自己写好一个功能后，再去看看spring是怎么实现的，会有种恍然大悟的感觉！
