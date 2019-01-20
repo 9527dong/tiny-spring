@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="proxyFactoryBean" class="aop.ProxyFactoryBean">
+        <property name="target" ref="singer" />
+        <property name="afterReturningAdvice" value="afterAdvice" />
+        <property name="beforeAdvice" value="beforeAdvice" />
+        <property name="proxyTargetClass" value="true" />
+        <property name="interfaces" value="aopEntity.Apology" />
+    </bean>
+
+
+    <bean id="singer" class="aopEntity.Singer">
+        <constructor-arg index="0" value="aaa"/>
+        <constructor-arg index="1" value="bbb"/>
+    </bean>
+
+    <bean id="afterAdvice" class="aopAdvice.PerformerAfterAdvice"/>
+    <bean id="beforeAdvice" class="aopAdvice.PerformerBeforeAdvice"/>
+</beans>

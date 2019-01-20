@@ -13,6 +13,7 @@ public class ProxyFactory{
     List<Advice> aroundAdvices = new ArrayList<>();
 
     Object target;
+    Class[] interfaces;
     boolean proxyTargetClass = false;
 
     public Object getProxy(){

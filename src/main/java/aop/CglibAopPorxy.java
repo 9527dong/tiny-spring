@@ -24,6 +24,8 @@ public class CglibAopPorxy implements MethodInterceptor, AopProxy {
                 throwable.printStackTrace();
             }
         });
+
+        System.out.println(methodProxy.getSignature() + "----getSuperName:"+methodProxy.getSuperName()+"----getSuperIndex:"+methodProxy.getSuperIndex());
         Object object = methodProxy.invokeSuper(o, args);
         this.proxyFactory.getAfterReturningAdvices().forEach(afterReturningAdvice -> {
             try {
@@ -37,7 +39,7 @@ public class CglibAopPorxy implements MethodInterceptor, AopProxy {
 
     @Override
     public Object getProxy() {
-        return Enhancer.create(proxyFactory.getTarget().getClass(), this);
+        return Enhancer.create(proxyFactory.getTarget().getClass(), proxyFactory.getInterfaces(),this);
     }
 
     @Override

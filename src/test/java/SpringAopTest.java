@@ -1,16 +1,17 @@
 import aop.ProxyFactory;
 import aopAdvice.PerformerAfterAdvice;
 import aopAdvice.PerformerBeforeAdvice;
+import aopEntity.Apology;
 import aopEntity.Performer;
 import aopEntity.Singer;
 import context.ApplicationContext;
 import context.ClassPathXmlApplicationContext;
-import net.sf.cglib.core.DefaultGeneratorStrategy;
-import net.sf.cglib.proxy.Enhancer;
 import org.junit.Test;
 
 public class SpringAopTest {
-
+    /**
+     * 测试aspectj
+     */
     @Test
     public void test2() {
         ApplicationContext ctx =
@@ -49,26 +50,16 @@ public class SpringAopTest {
 
         performer.perform();
     }
-
+    /**
+     * 测试DelegatingIntroductionInterceptor
+     */
     @org.junit.Test
-    public void testCglib() {
-        Enhancer enhancer =new Enhancer();
-        enhancer.setSuperclass(Singer.class);
-        enhancer.setStrategy(new DefaultGeneratorStrategy() {
-            protected byte[] transform(byte[] b) {
-                System.out.println("transform");
-                return new byte[]{1, 2, 3};
-            }
-        });
-        Object object = enhancer.create();
-        System.out.println(object instanceof Singer);
-//        enhancer.setSuperclass(TargetObject.class);
-//        enhancer.setCallback(new TargetInterceptor());
-//        TargetObject targetObject2=(TargetObject)enhancer.create();
-//        System.out.println(targetObject2);
-//        System.out.println(targetObject2.method1("mmm1"));
-//        System.out.println(targetObject2.method2(100));
-//        System.out.println(targetObject2.method3(200));
+    public void test4() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("DelegatingIntroductionInterceptor.xml");
+        Singer performer = (Singer) context.getBean("proxyFactoryBean");
+        performer.perform();
+        Apology apology = (Apology) context.getBean("proxyFactoryBean");
+        apology.saySorry("haha");
 
     }
 }
