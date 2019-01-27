@@ -11,7 +11,6 @@ public class AfterReturningAdviceInterceptor implements MethodInterceptor, Advic
 
 	private final AfterReturningAdvice advice;
 
-
 	/**
 	 * Create a new AfterReturningAdviceInterceptor for the given advice.
 	 * @param advice the AfterReturningAdvice to wrap
@@ -25,5 +24,4 @@ public class AfterReturningAdviceInterceptor implements MethodInterceptor, Advic
 		this.advice.afterReturning(retVal, mi.getMethod(), mi.getArguments(), mi.getThis());
 		return retVal;
 	}
-
 }

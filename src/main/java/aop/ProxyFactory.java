@@ -1,17 +1,21 @@
 package aop;
 
+import aop.adapter.AfterReturningAdviceInterceptor;
+import aop.adapter.MethodBeforeAdviceInterceptor;
 import lombok.Data;
 import org.aopalliance.aop.Advice;
+import org.aopalliance.intercept.MethodInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class ProxyFactory{
-    List<MethodBeforeAdvice> beforeAdvices = new ArrayList<>();
-    List<AfterReturningAdvice> afterReturningAdvices = new ArrayList<>();
-    List<Advice> aroundAdvices = new ArrayList<>();
+//    List<MethodBeforeAdvice> beforeAdvices = new ArrayList<>();
+//    List<AfterReturningAdvice> afterReturningAdvices = new ArrayList<>();
+//    List<Advice> aroundAdvices = new ArrayList<>();
 
+    List<MethodInterceptor> methodInterceptors = new ArrayList<>();
     Object target;
     Class[] interfaces;
     boolean proxyTargetClass = false;
@@ -36,11 +40,15 @@ public class ProxyFactory{
 
     public void addAdvice(Advice advice){
         if (advice instanceof  MethodBeforeAdvice){
-            beforeAdvices.add((MethodBeforeAdvice)advice);
+            methodInterceptors.add(new MethodBeforeAdviceInterceptor((MethodBeforeAdvice)advice));
         }
         if (advice instanceof  AfterReturningAdvice){
-            afterReturningAdvices.add((AfterReturningAdvice)advice);
+            methodInterceptors.add(new AfterReturningAdviceInterceptor((AfterReturningAdvice)advice));
         }
-        aroundAdvices.add(advice);
+
+        if (advice instanceof  MethodInterceptor){
+            methodInterceptors.add((MethodInterceptor)advice);
+        }
+
     }
 }

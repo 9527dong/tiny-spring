@@ -60,6 +60,5 @@ public class SpringAopTest {
         performer.perform();
         Apology apology = (Apology) context.getBean("proxyFactoryBean");
         apology.saySorry("haha");
-
     }
 }

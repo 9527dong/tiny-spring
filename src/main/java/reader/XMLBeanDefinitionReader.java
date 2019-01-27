@@ -37,7 +37,6 @@ public class XMLBeanDefinitionReader {
         //获取根节点对象
         Element rootElement = document.getRootElement();
 
-        System.out.println(rootElement.getName());
         if (rootElement.getName().equals("beans")){
             List<Element> elementList = rootElement.elements("bean");
 

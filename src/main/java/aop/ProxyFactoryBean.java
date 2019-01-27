@@ -7,17 +7,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.aopalliance.aop.Advice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ProxyFactoryBean extends ProxyFactory implements FactoryBean, BeanFactoryAware {
     private boolean singleton = true;
     private BeanFactory beanFactory;
-    private List<String> interceptorNames = new ArrayList<>();
     private String afterReturningAdvice;
     private String beforeAdvice;
+    private String methodInterceptor;
 
     @Override
     public Object getObject() {
@@ -28,6 +25,7 @@ public class ProxyFactoryBean extends ProxyFactory implements FactoryBean, BeanF
     private void initialInterceptorChain() {
         addAdvice((Advice) beanFactory.getBean(afterReturningAdvice));
         addAdvice((Advice) beanFactory.getBean(beforeAdvice));
+        addAdvice((Advice) beanFactory.getBean(methodInterceptor));
 //        interceptorNames.forEach(interceptorNames -> addAdvice((Advice) beanFactory.getBean(interceptorNames)));
     }
 

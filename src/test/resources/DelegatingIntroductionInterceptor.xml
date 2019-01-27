@@ -9,8 +9,8 @@
         <property name="beforeAdvice" value="beforeAdvice" />
         <property name="proxyTargetClass" value="true" />
         <property name="interfaces" value="aopEntity.Apology" />
+        <property name="methodInterceptor" value="greetingIntroAdvice" />
     </bean>
-
 
     <bean id="singer" class="aopEntity.Singer">
         <constructor-arg index="0" value="aaa"/>
@@ -19,4 +19,5 @@
 
     <bean id="afterAdvice" class="aopAdvice.PerformerAfterAdvice"/>
     <bean id="beforeAdvice" class="aopAdvice.PerformerBeforeAdvice"/>
+    <bean id="greetingIntroAdvice" class="aopEntity.GreetingIntroAdvice"/>
 </beans>

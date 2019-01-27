@@ -17,24 +17,7 @@ public class CglibAopPorxy implements MethodInterceptor, AopProxy {
 
     @Override
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        this.proxyFactory.getBeforeAdvices().forEach(methodBeforeAdvice -> {
-            try {
-                methodBeforeAdvice.before(method, args, proxyFactory.getTarget());
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
-
-        System.out.println(methodProxy.getSignature() + "----getSuperName:"+methodProxy.getSuperName()+"----getSuperIndex:"+methodProxy.getSuperIndex());
-        Object object = methodProxy.invokeSuper(o, args);
-        this.proxyFactory.getAfterReturningAdvices().forEach(afterReturningAdvice -> {
-            try {
-                afterReturningAdvice.afterReturning(object, method, args, proxyFactory.getTarget());
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
-        return object;
+        return new ReflectiveMethodInvocation(proxyFactory.getProxy(),proxyFactory.getTarget(),method,args,proxyFactory.getTarget().getClass(),proxyFactory.getMethodInterceptors()).proceed();
     }
 
     @Override
